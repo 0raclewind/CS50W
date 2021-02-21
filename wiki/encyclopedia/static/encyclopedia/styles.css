@@ -1,0 +1,66 @@
+body {
+    margin: 0;
+    background-color: white;
+}
+
+code {
+    white-space: pre;
+}
+
+h1 {
+    margin-top: 0px;
+    padding-top: 20px;
+}
+
+.row {
+    margin: 0;
+}
+
+.main {
+    padding: 10px;
+}
+
+.search {
+    width: 100%;
+    font-size: 15px;
+    line-height: 15px;
+}
+
+.sidebar {
+    background-color: #f0f0f0;
+    height: 100vh;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    margin-top: 5px;
+}
+
+.create {
+    display: flex;
+    flex-direction: column;
+    max-width: 60%;
+}
+
+.create label, .create button {
+    margin-top: 20px;
+}
+
+.create button, .edit-btn {
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: cornflowerblue;
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.exists {
+    padding: 5px 10px;
+    background-color:#ffc3c3;
+    border-top: 2px solid #af5050;
+    border-bottom: 2px solid #af5050;
+    max-width: 60%;
+}

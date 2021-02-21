@@ -1,0 +1,26 @@
+{% extends 'encyclopedia/layout.html' %}
+
+{% block title %}
+    {% if edit_title %}
+        Edit {{ edit_title }}
+    {% else %}
+        Create New
+    {% endif %}
+{% endblock title %}
+
+{% block body %}
+    {% if edit_title %}
+        <h1>{{ edit_title }}</h1>
+    {% else %}
+        <h1>Create New</h1>
+    {% endif %}
+
+    {% if exists %}
+        <div class="exists">Such record already exists</div>
+    {% endif %}
+    <form class="create" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">{{ button_text }}</button>
+    </form>
+{% endblock body %}
