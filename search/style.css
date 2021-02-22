@@ -1,0 +1,144 @@
+body {
+    font-family: arial;
+    margin: 0;
+}
+
+nav {
+    margin: 0 !important;
+    padding: 20px 10px;
+    height: 20px;
+    text-align: right;
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+nav a {
+    text-decoration: none;
+    color: #444;
+    margin-left: 20px;
+    font-size: 14px;
+}
+
+.wrapper {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.banner {
+    position: relative;
+    width: 400px;
+    margin: auto;
+}
+
+#images {
+    position: absolute;
+    right: 68px;
+    bottom: 5px;
+    color: #4285f4;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form input[type=text] {
+    width: 400px;
+    margin: auto;
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+
+input[type=text] {
+    border: 1px solid #ccc;
+}
+
+input[type=text]:focus {
+    outline: none;
+}
+
+.form input[type=submit] {
+    margin: 10px auto;
+    border-radius: 20px;
+}
+
+input[type=submit] {
+    background-color: #4285f4;
+    padding: 10px;
+    width: 150px;
+    outline: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+}
+
+input[type=submit]:hover {
+    background-color: #3872cf;
+    cursor: pointer;
+}
+
+/* Advanced search */
+.as-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.as-nav img {
+    width: 100px;
+    margin-right: auto;
+}
+
+.as-wrapper .banner {
+    margin-left: 50px;
+}
+
+.as-wrapper .title {
+    border-bottom: 1px solid #eee;
+    padding: 20px 30px;
+    font-size: 20px;
+    color: #d93025;
+}
+
+.as-form {
+    padding: 20px 30px;
+    width: 70%;
+}
+
+.as-form input[type=text] {
+    border-radius: 5px;
+    padding: 10px;
+    margin-left: 20px;
+    width: 100%;
+}
+
+.as-form .row {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.as-form .label {
+    min-width: 200px;
+    font-size: 14px;
+}
+
+.as-form .text {
+    margin-bottom: 10px;
+}
+
+.as-submit {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.as-submit .btn {
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    width: 130px;
+}
