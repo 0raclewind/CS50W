@@ -1,0 +1,30 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+    <div class=listing>
+        <div class=user>{{ listing.user }}</div>
+        <div class=title>{{ listing.title }}</div>
+        {% if listing.image_url %}
+            <div class=listing-pic style="background-image: url('{{ listing.image_url }}');"></div>
+        {% else %}
+            <div class=listing-pic style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/488px-No-Image-Placeholder.svg.png');"></div>
+        {% endif %}
+        <div class=description>{{ listing.description }}</div>
+        <div class=bid>
+            <span>Current bid:</span>
+            <span><strong>
+                {% if listing.current_bid %}
+                    {{ listing.current_bid }}
+                {% else %}
+                    {{ listing.starting_bid}}
+                {% endif %}
+                $
+            </strong></span>
+        </div>
+        <form action="">
+            <input class=input type="number" placeholder="Enter your bid">
+            <input class=submit type="submit" value="Place bid">
+        </form>
+        <button class=watch>Add to watchlist</button>
+    </div>
+{% endblock body %}

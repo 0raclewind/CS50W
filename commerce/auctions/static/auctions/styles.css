@@ -1,3 +1,92 @@
 body {
     padding: 10px;
 }
+
+a:hover {
+    text-decoration: none;
+}
+
+.listings {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding-left: 0;
+    position: relative;
+}
+
+.listings li {
+    width: 250px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #437cb3;
+    border-radius: 5px;
+    position: relative;
+}
+
+.listings .user {
+    margin: -10px -10px 0px -10px;
+    padding: 5px 10px;
+    text-align: right;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.listings .title {
+    font-size: 1.5em;
+    color: #444;
+    overflow: hidden;
+}
+
+.listings .listing-pic {
+    height: 200px;
+    width: 230px;
+    background-size: cover;
+    background-position: center;
+}
+
+.listings .description {
+    height: 3em;
+    overflow: hidden;
+    margin-top: 10px;
+    color: #444;
+}
+
+.listings .bid {
+    margin: 10px -10px -10px -10px;
+    padding: 5px;
+    text-align: right;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.listing .title {
+    font-size: 1.5em;
+}
+
+.listing .listing-pic {
+    height: 300px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.listing .bid {
+    margin-top: 20px;
+}
+
+.listing form .submit, .listing .watch {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.listing .watch {
+    margin-top: 10px;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.listing form .input {
+    width: 130px;
+}
