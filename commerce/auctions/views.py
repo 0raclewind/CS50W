@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 
-from .models import User, Listing
+from .models import User, Listing, Bid
 from .forms import ListingForm, BidForm
 
 
@@ -90,8 +90,16 @@ def listing_view(request, id):
             newForm.bidder = request.user
             newForm.auction = listing
             newForm.save()
-    return render(request, "auctions/view_listing.html", {
-        "listing": listing,
-        "bidForm": BidForm()
-    })
+    if request.user == listing.user:
+        bids = Bid.objects.filter(auction=id)
+        return render(request, "auctions/view_listing.html", {
+            "listing": listing,
+            "listingOwner": True,
+            "bids": bids
+        })
+    else:
+        return render(request, "auctions/view_listing.html", {
+            "listing": listing,
+            "bidForm": BidForm()
+        })
 

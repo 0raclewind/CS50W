@@ -21,11 +21,29 @@
                 $
             </strong></span>
         </div>
-        <form action="{% url 'listing view' id=listing.id %}" method="POST">
-            {% csrf_token %}
-            {{ bidForm }}
-            <input class=submit type="submit" value="Place bid">
-        </form>
-        <button class=watch>Add to watchlist</button>
+        {% if listingOwner %}
+            <h4>Bidding history</h4>
+            <table class="bidHistory">
+                <tr>
+                    <th>User</th>
+                    <th>Bid amount</th>
+                    <th>Timestamp</th>
+                </tr>
+                {% for bid in bids %}
+                    <tr>
+                        <td>{{ bid.bidder }}</td>
+                        <td>{{ bid.offer }} $</td>
+                        <td>{{ bid.timestamp }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <form action="{% url 'listing view' id=listing.id %}" method="POST">
+                {% csrf_token %}
+                {{ bidForm }}
+                <input class=submit type="submit" value="Place bid">
+            </form>
+            <button class=watch>Add to watchlist</button>
+        {% endif %}
     </div>
 {% endblock body %}

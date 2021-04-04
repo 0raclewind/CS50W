@@ -95,3 +95,19 @@ a:hover {
     padding: 5px;
     outline: #007bff;
 }
+
+.bidHistory {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 60%;
+}
+  
+.bidHistory td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+  
+.bidHistory tr:nth-child(even) {
+    background-color: #dddddd;
+}
