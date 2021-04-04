@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 
 from .models import User, Listing
-from .forms import ListingForm
+from .forms import ListingForm, BidForm
 
 
 def index(request):
@@ -83,7 +83,15 @@ def add_listing(request):
 
 def listing_view(request, id):
     listing = Listing.objects.get(pk=id)
+    if request.method == "POST":
+        form = BidForm(request.POST)
+        if form.is_valid():
+            newForm = form.save(commit=False)
+            newForm.bidder = request.user
+            newForm.auction = listing
+            newForm.save()
     return render(request, "auctions/view_listing.html", {
-        "listing": listing
+        "listing": listing,
+        "bidForm": BidForm()
     })
-    
+

@@ -1,9 +1,8 @@
 from django import forms
 
-from .models import Listing
+from .models import Listing, Bid
 
 class ListingForm(forms.ModelForm):
-
     class Meta:
         model = Listing
         fields = [
@@ -13,3 +12,17 @@ class ListingForm(forms.ModelForm):
             'image_url',
             'category'
         ]
+
+class BidForm(forms.ModelForm):
+    class Meta:
+        model = Bid
+        fields = [
+            'offer'
+        ]
+
+        widgets = {
+            "offer": forms.NumberInput(attrs={
+                'class': 'bidInput',
+                'placeholder': 'Your bid'
+            })
+        }

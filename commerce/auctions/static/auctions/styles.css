@@ -87,6 +87,11 @@ a:hover {
     letter-spacing: 1px;
 }
 
-.listing form .input {
-    width: 130px;
+.listing .bidInput {
+    width: 120px;
+    margin: 10px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    padding: 5px;
+    outline: #007bff;
 }

@@ -25,7 +25,7 @@ class Listing(models.Model):
         return f"{self.title} - {self.starting_bid}"
 
 class Bid(models.Model):
-    bidder = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="bidder")
+    bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bidder")
     auction = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="auction")
     offer = models.FloatField()
     timestamp = models.DateTimeField(auto_now=True)

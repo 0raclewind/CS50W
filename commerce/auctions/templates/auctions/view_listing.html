@@ -21,8 +21,9 @@
                 $
             </strong></span>
         </div>
-        <form action="">
-            <input class=input type="number" placeholder="Enter your bid">
+        <form action="{% url 'listing view' id=listing.id %}" method="POST">
+            {% csrf_token %}
+            {{ bidForm }}
             <input class=submit type="submit" value="Place bid">
         </form>
         <button class=watch>Add to watchlist</button>
