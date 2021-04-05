@@ -12,6 +12,7 @@ class Category(models.Model):
 
 class Listing(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    active = models.BooleanField(default=True)
     watchers = models.ManyToManyField(User, blank=True, related_name="watchers")
     time_created = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=40)
