@@ -75,6 +75,7 @@ def add_listing(request):
         if form.is_valid():
             newForm = form.save(commit=False)
             newForm.user = request.user
+            newForm.current_bid = newForm.starting_bid
             newForm.save()
             return HttpResponseRedirect(reverse('index'))
     return render(request, 'auctions/add_listing.html', {
@@ -87,11 +88,20 @@ def listing_view(request, id):
         form = BidForm(request.POST)
         if form.is_valid():
             newForm = form.save(commit=False)
-            newForm.bidder = request.user
-            newForm.auction = listing
-            newForm.save()
+            if newForm.offer > listing.current_bid:
+                listing.current_bid = newForm.offer
+                newForm.bidder = request.user
+                newForm.auction = listing
+                listing.save()
+                newForm.save()
+            else:
+                return render(request, "auctions/view_listing.html", {
+                    "listing": listing,
+                    "bidForm": BidForm(request.POST),
+                    "tooLow": True
+                })
     if request.user == listing.user:
-        bids = Bid.objects.filter(auction=id)
+        bids = Bid.objects.filter(auction=id).order_by("-timestamp")
         return render(request, "auctions/view_listing.html", {
             "listing": listing,
             "listingOwner": True,
