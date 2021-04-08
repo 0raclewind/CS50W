@@ -35,6 +35,8 @@
                     </tr>
                 {% endfor %}
             </table>
+        {% elif not user.is_authenticated %}
+            <div>You need to be logged in to bid</div>
         {% else %}
             <form action="{% url 'listing view' id=listing.id %}" method="POST">
                 {% csrf_token %}
@@ -44,7 +46,7 @@
             {% if tooLow %}
                 <div class="tooLow">Offer must be higher than Current bid</div>
             {% endif %}
-            <button class=watch>Add to watchlist</button>
+            <a class="{{ watch_button.class }}" href="{% url 'change watch' listing_id=listing.id %}">{{ watch_button.name }}</a>
         {% endif %}
     </div>
 {% endblock body %}

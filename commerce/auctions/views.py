@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 
-from .models import User, Listing, Bid
+from .models import User, Listing, Bid, Category
 from .forms import ListingForm, BidForm
 
 
@@ -84,6 +84,14 @@ def add_listing(request):
 
 def listing_view(request, id):
     listing = Listing.objects.get(pk=id)
+    watch_button = {}
+
+    try:
+        listing.watchers.get(username=request.user)
+        watch_button = {'name': "Remove from watchlist", "class": "watched"}
+    except:
+        watch_button = {'name': "Add to watchlist", "class": "unwatched"}
+
     if request.method == "POST":
         form = BidForm(request.POST)
         if form.is_valid():
@@ -98,18 +106,46 @@ def listing_view(request, id):
                 return render(request, "auctions/view_listing.html", {
                     "listing": listing,
                     "bidForm": BidForm(request.POST),
-                    "tooLow": True
+                    "tooLow": True,
+                    "watch_button": watch_button
                 })
     if request.user == listing.user:
         bids = Bid.objects.filter(auction=id).order_by("-timestamp")
         return render(request, "auctions/view_listing.html", {
             "listing": listing,
             "listingOwner": True,
-            "bids": bids
+            "bids": bids,
         })
     else:
         return render(request, "auctions/view_listing.html", {
             "listing": listing,
-            "bidForm": BidForm()
+            "bidForm": BidForm(),
+            "watch_button": watch_button
         })
 
+@login_required
+def change_watch(request, listing_id):
+    listing = Listing.objects.get(pk=listing_id)
+    
+    try:
+        listing.watchers.get(username=request.user)
+        listing.watchers.remove(request.user)
+    except:
+        listing.watchers.add(request.user)
+
+    return HttpResponseRedirect(reverse("listing view", kwargs={'id': listing_id}))
+
+@login_required
+def watched_listings(request):
+    listings = Listing.objects.filter(watchers=request.user)
+    
+    return render(request, "auctions/index.html", {
+        "name": "Watched listings",
+        "listings": listings
+    })
+
+def categorys(request):
+    categorys = Category.objects.all()
+    return render(request, "auctions/categorys.html", {
+        "categorys": categorys
+    })

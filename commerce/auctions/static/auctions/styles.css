@@ -86,7 +86,7 @@ a:hover {
     margin-top: 20px;
 }
 
-.listing form .submit, .listing .watch {
+.listing form .submit, .listing .unwatched, .listing .watched {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -94,7 +94,11 @@ a:hover {
     border-radius: 10px;
 }
 
-.listing .watch {
+.listing .watched {
+    background-color: rgb(185, 37, 37);
+}
+
+.listing .unwatched, .listing .watched {
     margin-top: 10px;
     font-size: 12px;
     letter-spacing: 1px;
