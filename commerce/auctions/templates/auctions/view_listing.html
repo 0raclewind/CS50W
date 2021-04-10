@@ -6,6 +6,7 @@
             <div class=user>Created by: <strong>{{ listing.user }}</strong></div>
             <div class="created">{{ listing.time_created }}</div>
         </div>
+        <div class="category">{{ listing.category }}</div>
         <div class=title>{{ listing.title }}</div>
         {% if listing.image_url %}
             <div class=listing-pic style="background-image: url('{{ listing.image_url }}');"></div>
@@ -13,6 +14,9 @@
             <div class=listing-pic style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/488px-No-Image-Placeholder.svg.png');"></div>
         {% endif %}
         <div class=description>{{ listing.description }}</div>
+        {% if winner %}
+            <div class="winner">Congratulations! You have won this auction.</div>
+        {% endif %}
         <div class=bid>
             <span>Current bid:</span>
             <span><strong>
@@ -20,7 +24,14 @@
             </strong></span>
         </div>
         {% if listingOwner %}
-            <h4>Bidding history</h4>
+            <div class="historyHeader">
+                <h4>Bidding history</h4>
+                {% if listing.active %}
+                    <a href="{% url 'close auction' id=listing.id %}" class=closeAuction>Close Auction</a>
+                {% else %}
+                    <div class="ended">Auction ended</div>
+                {% endif %}
+            </div>
             <table class="bidHistory">
                 <tr>
                     <th>User</th>
@@ -37,7 +48,7 @@
             </table>
         {% elif not user.is_authenticated %}
             <div>You need to be logged in to bid</div>
-        {% else %}
+        {% elif listing.active %}
             <form action="{% url 'listing view' id=listing.id %}" method="POST">
                 {% csrf_token %}
                 {{ bidForm }}
@@ -48,5 +59,25 @@
             {% endif %}
             <a class="{{ watch_button.class }}" href="{% url 'change watch' listing_id=listing.id %}">{{ watch_button.name }}</a>
         {% endif %}
+        <hr>
+        <div class="comments">
+            <h4>Comments</h4>
+            {% if user.is_authenticated %}
+                <form action="{% url 'leave comment' id=listing.id %}" method="POST">
+                    {% csrf_token %}
+                    {{ commentForm }}
+                    <input class=submit type="submit" value="Comment">
+                </form>
+            {% endif %}
+            {% for comment in comments %}
+                <div class="comment">
+                    <div class="header">
+                        <div class="commenter">{{ comment.commenter }}</div>
+                        <div class="time">{{ comment.timestamp }}</div>
+                    </div>
+                    <div class="commentText">{{ comment.comment }}</div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock body %}

@@ -6,12 +6,12 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 
-from .models import User, Listing, Bid, Category
-from .forms import ListingForm, BidForm
+from .models import User, Listing, Bid, Category, Comments
+from .forms import ListingForm, BidForm, CommentForm
 
 
 def index(request):
-    listings = Listing.objects.all()
+    listings = Listing.objects.filter(active=True)
     return render(request, "auctions/index.html", {
         "listings": listings
         })
@@ -85,6 +85,7 @@ def add_listing(request):
 def listing_view(request, id):
     listing = Listing.objects.get(pk=id)
     watch_button = {}
+    comments = Comments.objects.filter(auction=listing).order_by("-timestamp")
 
     try:
         listing.watchers.get(username=request.user)
@@ -106,20 +107,38 @@ def listing_view(request, id):
                 return render(request, "auctions/view_listing.html", {
                     "listing": listing,
                     "bidForm": BidForm(request.POST),
+                    "commentForm": CommentForm(),
+                    "comments": comments,
                     "tooLow": True,
                     "watch_button": watch_button
                 })
+
     if request.user == listing.user:
         bids = Bid.objects.filter(auction=id).order_by("-timestamp")
         return render(request, "auctions/view_listing.html", {
             "listing": listing,
             "listingOwner": True,
+            "commentForm": CommentForm(),
+            "comments": comments,
             "bids": bids,
+        })
+    elif not listing.active:
+        bids = Bid.objects.filter(auction=listing).order_by("-timestamp")
+        winner = False
+        if bids and bids[0].bidder == request.user:
+            winner = True
+        return render(request, "auctions/view_listing.html", {
+            "listing": listing,
+            "commentForm": CommentForm(),
+            "comments": comments,
+            "winner": winner
         })
     else:
         return render(request, "auctions/view_listing.html", {
             "listing": listing,
             "bidForm": BidForm(),
+            "commentForm": CommentForm(),
+            "comments": comments,
             "watch_button": watch_button
         })
 
@@ -141,11 +160,65 @@ def watched_listings(request):
     
     return render(request, "auctions/index.html", {
         "name": "Watched listings",
-        "listings": listings
+        "listings": listings,
+        "activeIndicator": True
     })
 
-def categorys(request):
-    categorys = Category.objects.all()
-    return render(request, "auctions/categorys.html", {
-        "categorys": categorys
+def categories(request):
+    categories = Category.objects.all()
+    return render(request, "auctions/categories.html", {
+        "categories": categories
+    })
+
+def category_view(request, cat_id):
+    listings = Listing.objects.filter(category=cat_id)
+
+    return render(request, "auctions/index.html", {
+        "listings": listings,
+        "name": Category.objects.get(pk=cat_id)
+    })
+
+@login_required
+def leave_comment(request, id):
+    form = CommentForm(request.POST)
+    
+    if form.is_valid():
+        newForm = form.save(commit=False)
+        newForm.commenter = request.user
+        newForm.auction = Listing.objects.get(pk=id)
+        newForm.save()
+    return HttpResponseRedirect(reverse("listing view", kwargs={'id': id}))
+
+@login_required
+def close_auction(request, id):
+    listing = Listing.objects.get(pk=id)
+    listing.active = False
+    listing.save()
+    return HttpResponseRedirect(reverse("index"))
+
+@login_required
+def your_auctions(request):
+    listings = Listing.objects.filter(user=request.user)
+
+    return render(request, "auctions/index.html", {
+        "listings": listings,
+        "name": "Your auctions",
+        "activeIndicator": True
+    })
+
+@login_required
+def auctions_won(request):
+    # Get all closed listings
+    closed_listings = Listing.objects.filter(active=False)
+    listings = []
+    for listing in closed_listings:
+        # Get all bids ordered by timestamp
+        bids = Bid.objects.filter(auction=listing).order_by("-timestamp")
+        # Check if there are any bids and latest bid is current user
+        if bids and bids[0].bidder == request.user:
+            listings.append(listing)
+
+    return render(request, "auctions/index.html", {
+        "listings": listings,
+        "name": "Won listings"
     })

@@ -23,10 +23,22 @@ class Listing(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.title} - {self.starting_bid}"
+        return f"{self.title}"
 
 class Bid(models.Model):
     bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bidder")
     auction = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="auction")
     offer = models.FloatField()
     timestamp = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.auction} auction: {self.bidder} - {self.offer}"
+
+class Comments(models.Model):
+    commenter = models.ForeignKey(User, on_delete=models.CASCADE, related_name="commenter")
+    auction = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="comment_auction")
+    comment = models.CharField(max_length=400)
+    timestamp = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.auction} auction: {self.commenter} - {self.comment}"
