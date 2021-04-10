@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Listing, Bid
+from .models import Listing, Bid, Comments
 
 class ListingForm(forms.ModelForm):
     class Meta:
@@ -24,5 +24,24 @@ class BidForm(forms.ModelForm):
             "offer": forms.NumberInput(attrs={
                 'class': 'bidInput',
                 'placeholder': 'Your bid'
+            })
+        }
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comments
+        fields = [
+            "comment"
+        ]
+
+        labels = {
+            "comment": ""
+        }
+
+        widgets = {
+            "comment": forms.Textarea(attrs={
+                "class": "commentArea",
+                "placeholder": "Enter your comment",
+                "rows": "3"
             })
         }
