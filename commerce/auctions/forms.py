@@ -8,7 +8,7 @@ class ListingForm(forms.ModelForm):
         fields = [
             'title',
             'description',
-            'starting_bid',
+            'current_bid',
             'image_url',
             'category'
         ]

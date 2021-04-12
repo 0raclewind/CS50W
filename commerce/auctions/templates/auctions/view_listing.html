@@ -20,7 +20,7 @@
         <div class=bid>
             <span>Current bid:</span>
             <span><strong>
-                {{ listing.current_bid }} $
+                {{ listing.current_bid|floatformat:2 }} $
             </strong></span>
         </div>
         {% if listingOwner %}
@@ -32,20 +32,24 @@
                     <div class="ended">Auction ended</div>
                 {% endif %}
             </div>
-            <table class="bidHistory">
-                <tr>
-                    <th>User</th>
-                    <th>Bid amount</th>
-                    <th>Timestamp</th>
-                </tr>
-                {% for bid in bids %}
+            {% if bids %}
+                <table class="bidHistory">
                     <tr>
-                        <td>{{ bid.bidder }}</td>
-                        <td>{{ bid.offer }} $</td>
-                        <td>{{ bid.timestamp }}</td>
+                        <th>User</th>
+                        <th>Bid amount</th>
+                        <th>Timestamp</th>
                     </tr>
-                {% endfor %}
-            </table>
+                    {% for bid in bids %}
+                        <tr>
+                            <td>{{ bid.bidder }}</td>
+                            <td>{{ bid.offer }} $</td>
+                            <td>{{ bid.timestamp }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <div class=noBids>There are no bids yet...</div>
+            {% endif %}
         {% elif not user.is_authenticated %}
             <div>You need to be logged in to bid</div>
         {% elif listing.active %}
@@ -68,16 +72,23 @@
                     {{ commentForm }}
                     <input class=submit type="submit" value="Comment">
                 </form>
+            {% else %}
+                <div>You need to be logged in to comment</div>
+                <hr>
             {% endif %}
-            {% for comment in comments %}
-                <div class="comment">
-                    <div class="header">
-                        <div class="commenter">{{ comment.commenter }}</div>
-                        <div class="time">{{ comment.timestamp }}</div>
+            {% if comments %}
+                {% for comment in comments %}
+                    <div class="comment">
+                        <div class="header">
+                            <div class="commenter">{{ comment.commenter }}</div>
+                            <div class="time">{{ comment.timestamp }}</div>
+                        </div>
+                        <div class="commentText">{{ comment.comment }}</div>
                     </div>
-                    <div class="commentText">{{ comment.comment }}</div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            {% else %}
+                <div class="noComments">There are no comments...</div>
+            {% endif %}
         </div>
     </div>
 {% endblock body %}

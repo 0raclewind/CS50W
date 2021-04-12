@@ -47,7 +47,7 @@ a:hover {
 }
 
 .listings .title {
-    font-size: 1.5em;
+    font-size: 1.2em;
     color: #444;
     overflow: hidden;
 }
@@ -76,6 +76,7 @@ a:hover {
 
 .listing {
     width: 400px;
+    margin-left: 40px;
 }
 
 .listing .header {
@@ -190,6 +191,8 @@ a:hover {
     text-align: center;
     border-radius: 5px;
     width: 230px;
+    margin-top: -5px;
+    margin-bottom: 3px;
 }
 
 .categories {
@@ -219,14 +222,16 @@ a:hover {
 }
 
 .comments .header {
-    font-size: 12px;
     border-radius: 5px 5px 0 0;
 }
 
 .comments .commentText {
-    font-size: 12px;
     padding: 5px;
     border: 1px solid #aaa;
     border-radius: 0 0 5px 5px;
     margin-bottom: 5px;
+}
+
+.noBids {
+    text-align: center;
 }

@@ -17,8 +17,7 @@ class Listing(models.Model):
     time_created = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=40)
     description = models.TextField(max_length=400)
-    starting_bid = models.FloatField()
-    current_bid = models.FloatField(blank=True, null=True)
+    current_bid = models.DecimalField(max_digits=7, decimal_places=2)
     image_url = models.CharField(max_length=200, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
@@ -28,7 +27,7 @@ class Listing(models.Model):
 class Bid(models.Model):
     bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bidder")
     auction = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="auction")
-    offer = models.FloatField()
+    offer = models.DecimalField(max_digits=7, decimal_places=2)
     timestamp = models.DateTimeField(auto_now=True)
 
     def __str__(self):

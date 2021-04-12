@@ -75,7 +75,6 @@ def add_listing(request):
         if form.is_valid():
             newForm = form.save(commit=False)
             newForm.user = request.user
-            newForm.current_bid = newForm.starting_bid
             newForm.save()
             return HttpResponseRedirect(reverse('index'))
     return render(request, 'auctions/add_listing.html', {
@@ -171,7 +170,7 @@ def categories(request):
     })
 
 def category_view(request, cat_id):
-    listings = Listing.objects.filter(category=cat_id)
+    listings = Listing.objects.filter(category=cat_id).filter(active=True)
 
     return render(request, "auctions/index.html", {
         "listings": listings,
