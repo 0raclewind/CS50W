@@ -2,13 +2,27 @@
 {% load static %}
 
 {% block body %}
-    <h2>{{ request.user.email }}</h2>
+    <div class="header">
+        <div class="logo">
+            <i class="fas fa-envelope-square"></i>
+            <h4>Mail</h4>
+        </div>
+        <div class=user>
+            <h4>{{ request.user.email }}</h4>
+            <a class="logout" href="{% url 'logout' %}">Log Out</a>
+        </div>
 
-    <button class="btn btn-sm btn-outline-primary" id="inbox">Inbox</button>
-    <button class="btn btn-sm btn-outline-primary" id="compose">Compose</button>
-    <button class="btn btn-sm btn-outline-primary" id="sent">Sent</button>
-    <button class="btn btn-sm btn-outline-primary" id="archived">Archived</button>
-    <a class="btn btn-sm btn-outline-primary" href="{% url 'logout' %}">Log Out</a>
+    </div>
+    <div class="buttons">
+        <div class="compose">
+            <button class="btn" id="compose"><i class="fas fa-plus"></i> Compose</button>
+        </div>
+        <div class="mailbox-buttons">
+            <button class="btn" id="inbox"><i class="fas fa-inbox"></i> Inbox</button>
+            <button class="btn" id="sent"><i class="fas fa-inbox"></i> Sent</button>
+            <button class="btn" id="archived"><i class="fas fa-archive"></i> Archived</button>
+        </div>
+    </div>
     <hr>
 
     <div id="emails-view">

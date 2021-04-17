@@ -1,3 +1,51 @@
 textarea {
     min-height: 400px;
 }
+
+h4 {
+    margin: 0;
+}
+
+.mailbox-buttons *, h4 {
+    color: #666;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header .logo, .header .user {
+    display: flex;
+    align-items: center;
+}
+
+.logout {
+    background-color: dodgerblue;
+    color: #fff;
+    padding: 5px 10px;
+    margin: 10px 15px;
+    border-radius: 10px;
+}
+
+.fa-envelope-square {
+    font-size: 30px;
+    margin-right: 10px;
+    color: dodgerblue;
+}
+
+.buttons {
+    display: flex;
+}
+
+.mailbox-buttons {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#compose {
+    padding: 5px 10px;
+    background-color: dodgerblue;
+    color: #fff;
+    border-radius: 20px;
+}
