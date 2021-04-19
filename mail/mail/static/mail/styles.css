@@ -6,7 +6,7 @@ h4 {
     margin: 0;
 }
 
-.mailbox-buttons *, h4 {
+h4, #emails-view {
     color: #666;
 }
 
@@ -31,7 +31,7 @@ h4 {
 .fa-envelope-square {
     font-size: 30px;
     margin-right: 10px;
-    color: dodgerblue;
+    color: #1e90ff;
 }
 
 .buttons {
@@ -42,6 +42,11 @@ h4 {
     margin-left: auto;
     margin-right: auto;
 }
+
+/* .mailbox-buttons *:focus {
+    outline: none;
+    border: none;
+} */
 
 #compose {
     padding: 5px 10px;
