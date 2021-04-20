@@ -54,3 +54,25 @@ h4, #emails-view {
     color: #fff;
     border-radius: 20px;
 }
+
+/* Table format */
+#mail-list, .tableRow {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.senderTd {
+    width: 30%;
+}
+
+.subjectTd {
+    width: 40%;
+    height: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.timeTd {
+    width: 30%;
+    text-align: right;
+}

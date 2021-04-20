@@ -34,7 +34,7 @@ function load_mailbox(mailbox) {
 
   let buttons = document.querySelectorAll(".mailbox-buttons a");
   let emailsView = document.querySelector("#emails-view");
-  let mailList = document.createElement('ul');
+  let mailList = document.createElement('table');
   mailList.id = "mail-list";
   emailsView.appendChild(mailList);
 
@@ -50,10 +50,7 @@ function load_mailbox(mailbox) {
   fetch(`/emails/${mailbox}`)
     .then(response => response.json())
     .then(emails => {
-      let li = document.createElement('li')
-      li.innerHTML = mailbox
-      mailList.appendChild(li)
-      console.log(emails);
+      emails.forEach(email => display_mailbox(email, mailbox, mailList))
     });
 }
 
@@ -74,4 +71,31 @@ function send_email() {
   localStorage.clear();
   load_mailbox('inbox');
   return false;
+}
+
+function display_mailbox(email, mailbox, mailList) {
+  // Create elements
+  let tr = document.createElement('tr');
+  let senderTd = document.createElement("td");
+  let subjectTd = document.createElement("td");
+  let timeTd = document.createElement("td");
+
+  // Set attributes
+  tr.classList.add("tableRow");
+  senderTd.classList.add("senderTd");
+  subjectTd.classList.add("subjectTd");
+  timeTd.classList.add("timeTd");
+
+  // Set element values
+  senderTd.innerHTML = email.sender;
+  subjectTd.innerHTML = email.subject;
+  timeTd.innerHTML = email.timestamp;
+
+  // Append children
+  tr.appendChild(senderTd);
+  tr.appendChild(subjectTd);
+  tr.appendChild(timeTd);
+  mailList.appendChild(tr);
+
+  console.log(email);
 }
