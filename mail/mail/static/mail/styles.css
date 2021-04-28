@@ -10,6 +10,15 @@ h4, #emails-view {
     color: #666;
 }
 
+body {
+    background-color: #eee;
+}
+
+.container {
+    position: relative;
+    height: 100vh;
+}
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -61,6 +70,31 @@ h4, #emails-view {
     table-layout: fixed;
 }
 
+.tableRow {
+    background-color: #ddd;
+    padding: 5px 2px;
+    height: 40px;
+    border-top: 2px solid #eee;
+    cursor: pointer;
+}
+
+.email-unopened {
+    background-color: #fff;
+}
+
+.tableRow:hover {
+    background-color: #d0e7ff;
+}
+
+.mail-icon, .archive-icon {
+    width: 30px;
+    text-align: center;
+}
+
+.archive-icon:hover {
+    color: #1e90ff;
+}
+
 .senderTd {
     width: 30%;
 }
@@ -75,4 +109,59 @@ h4, #emails-view {
 .timeTd {
     width: 30%;
     text-align: right;
+}
+
+#view-email {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 20px;
+    transform: translate(-50%, -50%) scale(0);
+    background-color: #eeeeee;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    width: 80%;
+    height: 500px;
+    z-index: 2;
+    transition: transform 300ms ease-in-out;
+}
+
+#view-email .header {
+    background-color: #1e90ff;
+    color: #fff;
+    padding: 13px;
+    border-radius: 10px 10px 0 0;
+}
+
+#view-email .email {
+    padding: 20px;
+    font-size: 18px;
+}
+
+#view-email .email * {
+    margin-top: 10px;
+}
+
+#view-email .header .time {
+
+}
+
+#view-email .header #close {
+    font-size: 60px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    line-height: 35px;
+    cursor: pointer;
+}
+
+#backdrop {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 100%;
+    height: 100vh;
+    backdrop-filter: blur(2px);
+    z-index: 1;
 }

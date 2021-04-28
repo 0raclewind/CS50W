@@ -76,26 +76,110 @@ function send_email() {
 function display_mailbox(email, mailbox, mailList) {
   // Create elements
   let tr = document.createElement('tr');
+  let mailIcon = document.createElement('td');
   let senderTd = document.createElement("td");
   let subjectTd = document.createElement("td");
   let timeTd = document.createElement("td");
+  let archiveIcon = document.createElement("td");
 
   // Set attributes
   tr.classList.add("tableRow");
+  mailIcon.classList.add("mail-icon")
   senderTd.classList.add("senderTd");
   subjectTd.classList.add("subjectTd");
   timeTd.classList.add("timeTd");
+  archiveIcon.classList.add("archive-icon");
 
   // Set element values
-  senderTd.innerHTML = email.sender;
+  if (mailbox === "inbox") {
+    if (email.read) {
+      mailIcon.innerHTML = "<i class='fas fa-envelope-open'></i>";
+      tr.classList.remove("email-unopened");
+    } else {
+      mailIcon.innerHTML = "<i class='fas fa-envelope'></i>";
+      tr.classList.add("email-unopened");
+    }
+    senderTd.innerHTML = email.sender;
+    archiveIcon.innerHTML = '<i class="fas fa-archive"></i>';
+  } else if (mailbox === "sent") {
+    mailIcon.innerHTML = "<i class='fas fa-paper-plane'></i>";
+    senderTd.innerHTML = email.recipients[0];
+  } else {
+    mailIcon.classList.remove("mail-icon");
+    senderTd.innerHTML = email.sender;
+    senderTd.style.paddingLeft = "10px";
+    archiveIcon.innerHTML = '<i class="fas fa-archive"></i>';
+  }
+
   subjectTd.innerHTML = email.subject;
   timeTd.innerHTML = email.timestamp;
 
   // Append children
+  tr.appendChild(mailIcon);
   tr.appendChild(senderTd);
   tr.appendChild(subjectTd);
   tr.appendChild(timeTd);
+  tr.appendChild(archiveIcon);
   mailList.appendChild(tr);
 
-  console.log(email);
+  let open_mail_triggers = [senderTd, subjectTd, timeTd];
+
+  open_mail_triggers.forEach(trigger => {
+    trigger.addEventListener('click', () => view_email(email.id, mailbox));
+  });
+  archiveIcon.addEventListener('click', () => archive_email(email.id, email.archived));
+}
+
+function view_email(email_id, mailbox) {
+  document.querySelector("#backdrop").style.display = "block";
+  document.querySelector("#view-email").style.transform = "translate(-50%, -50%) scale(1)";
+  let read = false;
+
+  fetch(`/emails/${email_id}`)
+    .then(response => response.json())
+    .then(email => {
+      document.querySelector('#view-email .time').innerHTML = email.timestamp;
+      document.querySelector('#view-email #subject span').innerHTML = email.subject;
+      document.querySelector('#view-email #body').innerHTML = email.body;
+
+      // Check if email is read, if it's not mark as read and reload mailbox
+      if (mailbox === "inbox" && !email.read) {
+        fetch(`/emails/${email_id}`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            read: true
+          })
+        })
+          .then(() => load_mailbox('inbox'))
+      }
+
+      // If mailbox is sent then load recipients
+      if (mailbox === "sent") {
+        document.querySelector('#view-email #from').innerHTML = `<strong>To: </strong>${email.recipients[0]}`;
+      } else {
+        document.querySelector('#view-email #from').innerHTML = `<strong>From: </strong>${email.sender}`;
+      }
+    })
+
+
+
+  document.querySelector("#backdrop").addEventListener('click', () => hide_email());
+  document.querySelector("#close").addEventListener('click', () => hide_email());
+
+  return false;
+}
+
+function hide_email() {
+  document.querySelector("#backdrop").style.display = "none";
+  document.querySelector("#view-email").style.transform = "translate(-50%, -50%) scale(0)";
+}
+
+function archive_email(email_id, status) {
+  fetch(`/emails/${email_id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      archived: !status
+    })
+  })
+    .then(() => load_mailbox('inbox'))
 }
