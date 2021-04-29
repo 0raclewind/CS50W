@@ -52,6 +52,10 @@ body {
     margin-right: auto;
 }
 
+.mailbox-buttons *:hover {
+    color: #1e90ff !important;
+}
+
 #compose {
     padding: 5px 10px;
     background-color: dodgerblue;
@@ -124,7 +128,7 @@ body {
 
 #view-email .header {
     background-color: #1e90ff;
-    color: #fff;
+    color: #ddd;
     padding: 13px;
     border-radius: 10px 10px 0 0;
 }
@@ -147,6 +151,11 @@ body {
     cursor: pointer;
 }
 
+#view-email .header #close:hover {
+    color: #fff;
+    text-shadow: 0 0 3px #fff;
+}
+
 #view-email .buttons {
     display: flex;
     justify-content: space-around;
@@ -154,7 +163,7 @@ body {
     margin: auto 20px 20px 20px;
 }
 
-#view-email .buttons>* {
+#view-email #reply-btn {
     width: 40%;
     background-color: #1e90ff;
     color: #fff;
@@ -164,6 +173,11 @@ body {
     font-weight: 600;
     cursor: pointer;
     border-radius: 10px;
+}
+
+#view-email #reply-btn:hover {
+    background-color: #1a71c7;
+    text-shadow: 0 0 2px #fff;
 }
 
 #backdrop {

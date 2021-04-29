@@ -18,6 +18,7 @@ function compose_email() {
   document.querySelector('#compose-view').style.display = 'block';
 
   // Clear out composition fields
+  document.querySelector('#compose-view h3').innerHTML = "New Email";
   document.querySelector('#compose-recipients').value = '';
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
@@ -156,20 +157,37 @@ function view_email(email_id, mailbox) {
       // If mailbox is sent then load recipients
       if (mailbox === "sent") {
         document.querySelector('#view-email #from').innerHTML = `<strong>To: </strong>${email.recipients[0]}`;
+        document.querySelector("#view-email .buttons").innerHTML = '';
       } else {
         document.querySelector('#view-email #from').innerHTML = `<strong>From: </strong>${email.sender}`;
+        document.querySelector("#view-email .buttons").innerHTML = '<div id="reply-btn"><i class="fas fa-reply"></i> Reply</div>';
       }
-      document.querySelector("#archive-btn").addEventListener('click', () => {
-        archive_email(email.id, email.archived);
+      document.querySelector('#reply-btn').addEventListener('click', () => {
         hide_email();
+        compose_email();
+        let subject = '';
+        if (email.subject.substring(0, 3) === "Re:") {
+          subject = email.subject;
+        } else {
+          subject = `Re: ${email.subject}`;
+        }
+
+        let body = `
+
+"On ${email.timestamp} ${email.sender} wrote:"
+
+${email.body}
+        `;
+
+        document.querySelector('#compose-view h3').innerHTML = "Reply Email";
+        document.querySelector('#compose-recipients').value = email.sender;
+        document.querySelector("#compose-subject").value = subject;
+        document.querySelector("#compose-body").value = body;
       });
     })
 
-
-
   document.querySelector("#backdrop").addEventListener('click', () => hide_email());
   document.querySelector("#close").addEventListener('click', () => hide_email());
-
   return false;
 }
 
