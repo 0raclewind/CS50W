@@ -69,7 +69,7 @@ function send_email() {
     })
   })
   localStorage.clear();
-  load_mailbox('inbox');
+  load_mailbox('sent');
   return false;
 }
 
@@ -159,6 +159,10 @@ function view_email(email_id, mailbox) {
       } else {
         document.querySelector('#view-email #from').innerHTML = `<strong>From: </strong>${email.sender}`;
       }
+      document.querySelector("#archive-btn").addEventListener('click', () => {
+        archive_email(email.id, email.archived);
+        hide_email();
+      });
     })
 
 
