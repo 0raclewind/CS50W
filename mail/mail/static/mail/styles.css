@@ -14,6 +14,10 @@ body {
     background-color: #eee;
 }
 
+textarea {
+    white-space: pre-wrap;
+}
+
 .container {
     position: relative;
     height: 100vh;
@@ -131,6 +135,14 @@ body {
     color: #ddd;
     padding: 13px;
     border-radius: 10px 10px 0 0;
+    justify-content: flex-start;
+}
+
+#view-email .header #logo {
+    width: 40px;
+    height: 20px;
+    font-size: 25px;
+    line-height: .1;
 }
 
 #view-email .email {

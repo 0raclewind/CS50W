@@ -69,8 +69,10 @@ function send_email() {
       body: body
     })
   })
+    .then(() => {
+      load_mailbox('sent');
+    })
   localStorage.clear();
-  load_mailbox('sent');
   return false;
 }
 
@@ -141,7 +143,8 @@ function view_email(email_id, mailbox) {
     .then(email => {
       document.querySelector('#view-email .time').innerHTML = email.timestamp;
       document.querySelector('#view-email #subject span').innerHTML = email.subject;
-      document.querySelector('#view-email #body').innerHTML = email.body;
+      document.querySelector('#view-email #body').innerHTML = email.body.replace(/\n/g, '<br>\n');
+      console.log(email.body);
 
       // Check if email is read, if it's not mark as read and reload mailbox
       if (mailbox === "inbox" && !email.read) {
@@ -162,28 +165,27 @@ function view_email(email_id, mailbox) {
         document.querySelector('#view-email #from').innerHTML = `<strong>From: </strong>${email.sender}`;
         document.querySelector("#view-email .buttons").innerHTML = '<div id="reply-btn"><i class="fas fa-reply"></i> Reply</div>';
       }
-      document.querySelector('#reply-btn').addEventListener('click', () => {
-        hide_email();
-        compose_email();
-        let subject = '';
-        if (email.subject.substring(0, 3) === "Re:") {
-          subject = email.subject;
-        } else {
-          subject = `Re: ${email.subject}`;
-        }
 
-        let body = `
+      // Check if mailbox are not "sent", then add event listener to Reply button
+      if (mailbox != "sent") {
+        document.querySelector('#reply-btn').addEventListener('click', () => {
+          hide_email();
+          compose_email();
+          let subject = '';
+          if (email.subject.substring(0, 3) === "Re:") {
+            subject = email.subject;
+          } else {
+            subject = `Re: ${email.subject}`;
+          }
 
-"On ${email.timestamp} ${email.sender} wrote:"
+          let body = `\n\n"On ${email.timestamp} ${email.sender} wrote:"\n${email.body}`;
 
-${email.body}
-        `;
-
-        document.querySelector('#compose-view h3').innerHTML = "Reply Email";
-        document.querySelector('#compose-recipients').value = email.sender;
-        document.querySelector("#compose-subject").value = subject;
-        document.querySelector("#compose-body").value = body;
-      });
+          document.querySelector('#compose-view h3').innerHTML = "Reply Email";
+          document.querySelector('#compose-recipients').value = email.sender;
+          document.querySelector("#compose-subject").value = subject;
+          document.querySelector("#compose-body").value = body;
+        });
+      }
     })
 
   document.querySelector("#backdrop").addEventListener('click', () => hide_email());
