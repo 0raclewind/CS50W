@@ -5,3 +5,4 @@ pyvenv.cfg
 db.sqlite3
 model_training
 migrations
+final/
