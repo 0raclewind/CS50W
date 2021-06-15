@@ -1,0 +1,57 @@
+.navbar, .body {
+    padding: 10px 50px;
+}
+
+form {
+    width: 300px;
+}
+
+/* Index page */
+.postArea {
+    padding: 5px 10px;
+}
+
+.post_form input {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 10px;
+}
+
+.post {
+    background-color: #eee;
+    width: 400px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.post .header {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+}
+
+.post .content {
+    padding: 5px 10px;
+}
+
+.post .footer {
+    display: flex;
+    align-items: center;
+    background-color: #007bff;
+    border-radius: 0 0 10px 10px;
+    color: #fff;
+}
+
+.post .footer .likes {
+    padding: 0 10px;
+}
+
+.post .footer .heart i {
+    padding: 6px 10px;
+    cursor: pointer;
+}
