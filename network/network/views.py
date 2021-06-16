@@ -73,3 +73,6 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+def update_like(request, post_id):
+    return None

@@ -19,7 +19,7 @@
                 <div class="content">{{ post.post_content }}</div>
                 <div class="footer">
                     <div class="heart"><i class="far fa-heart"></i></div>
-                    <div class="likes">{{ post.likes }}</div>
+                    <div id="likes-{{ post.id }}">{{ post.likes }}</div>
                 </div>
             </div>
         {% endfor %}

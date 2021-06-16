@@ -37,6 +37,7 @@ form {
 
 .post .content {
     padding: 5px 10px;
+    border: 1px solid #007bff;
 }
 
 .post .footer {
