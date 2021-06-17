@@ -46,13 +46,51 @@ form {
     background-color: #007bff;
     border-radius: 0 0 10px 10px;
     color: #fff;
+    position: relative;
 }
 
 .post .footer .likes {
+    position: relative;
+    left: 30px;
     padding: 0 10px;
 }
 
+@keyframes heart {
+    0% {
+        top: 0;
+        left: 0;
+        font-size: 16px;
+        color: #fff;
+    }
+
+    33% {
+        top: 2px;
+        left: 2px;
+        font-size: 12px;
+    }
+
+    66% {
+        top: -3px;
+        left: -3px;
+        font-size: 22px;
+    }
+
+    100% {
+        top: 0;
+        left: 0;
+        font-size: 16px;
+        color: #ff3838;
+    }
+}
+
+.like-animation {
+    animation: heart 500ms ease-in-out;
+}
+
 .post .footer .heart i {
-    padding: 6px 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 4px 10px;
     cursor: pointer;
 }
