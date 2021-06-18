@@ -85,4 +85,6 @@ def update_like(request, post_id):
     except:
         post.likes.add(request.user)
 
-    return None
+    likes_count = post.likes.count()
+
+    return HttpResponse(likes_count)

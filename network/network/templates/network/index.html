@@ -18,8 +18,12 @@
                 </div>
                 <div class="content">{{ post.post_content }}</div>
                 <div class="footer">
-                    <div class="heart"><i class="far fa-heart" id="{{ post.id }}"></i></div>
-                    <div class="likes">{{ post.likes }}</div>
+                    {% if request.user in post.likes.all %}
+                        <div class="heart"><i class="fas fa-heart" id="{{ post.id }}" style="color: #ff3838;"></i></div>
+                    {% else %}
+                        <div class="heart"><i class="far fa-heart" id="{{ post.id }}"></i></div>
+                    {% endif %}
+                    <div class="likes">{{ post.likes.count }}</div>
                 </div>
             </div>
         {% endfor %}

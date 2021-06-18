@@ -5,7 +5,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
 })
 
 function like() {
+    let likes = this.parentElement.parentElement.querySelector(".likes");
+
     fetch(`${this.id}/like`)
+        .then(response => {
+            return response.json();
+        })
+        .then(json => {
+            likes.innerHTML = json;
+        })
 
     if (this.className.split(" ")[0] === "far") {
         this.className = "fas fa-heart";
