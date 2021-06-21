@@ -19,9 +19,13 @@ form {
     border-radius: 10px;
 }
 
+.posts {
+    width: 400px;
+    margin-top: 10px;
+}
+
 .post {
     background-color: #eee;
-    width: 400px;
     margin-bottom: 10px;
     border-radius: 10px;
 }
@@ -33,6 +37,10 @@ form {
     background-color: #007bff;
     color: #fff;
     border-radius: 10px 10px 0 0;
+}
+
+.post .header a {
+    color: #fff;
 }
 
 .post .content {
@@ -53,6 +61,11 @@ form {
     position: relative;
     left: 30px;
     padding: 0 10px;
+}
+
+.noposts {
+    text-align: center;
+    color: #777;
 }
 
 @keyframes heart {
@@ -93,4 +106,49 @@ form {
     left: 0;
     padding: 4px 10px;
     cursor: pointer;
+}
+
+/* Profile */
+
+.profile {
+    display: flex;
+    align-items: center;
+    width: 400px;
+}
+
+.profile .user_icon {
+    font-size: 36px;
+    color: #aaa;
+    text-align: center;
+    line-height: 25px;
+}
+
+.profile .profile_name {
+    font-size: 30px;
+    width: 240px;
+    text-align: center;
+    font-weight: 600;
+    line-height: 25px;
+}
+
+.profile .follow {
+    background: #007bff;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.profile .follow i {
+    position: absolute;
+    left: 10px;
+    top: 8px;
+}
+
+.profile .unfollow {
+    background: #ef1414;
 }

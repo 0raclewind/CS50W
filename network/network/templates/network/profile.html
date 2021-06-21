@@ -1,0 +1,46 @@
+{% extends 'network/layout.html' %}
+
+{% block body %}
+    <div class="profile">
+        <div class="username">
+            <div class="user_icon"><i class="fas fa-user"></i></div>
+            <div class="profile_name">{{ profile.user }}</div>
+        </div>
+        <div class="info">
+            <div class="date_joined"><strong>Joined:</strong> {{ profile.user.date_joined|date:"d M Y" }}</div>
+            <div class="followers"><strong>Followers:</strong> <span class="followers_count">{{ profile.followers.count }}</span></div>
+            <div class="following"><strong>Following:</strong> {{ profile.following.count }}</div>
+            {% if profile.user != user %}
+                {% if request.user in profile.followers.all %}
+                    <div class="follow unfollow" id="{{ profile.id }}"><i class="fas fa-user-minus"></i>Unfollow</div>
+                {% else %}
+                    <div class="follow" id="{{ profile.id }}"><i class="fas fa-user-plus"></i>Follow</div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="posts">
+        <h4>Posts</h4>
+        {% if posts %}
+            {% for post in posts %}
+                <div class="post">
+                    <div class="header">
+                        <div class="user"><a href="{% url 'profile' profile_id=post.user_id %}">{{ post.user }}</a></div>
+                        <div class="timestamp">{{ post.time_created }}</div>
+                    </div>
+                    <div class="content">{{ post.post_content }}</div>
+                    <div class="footer">
+                        {% if request.user in post.likes.all %}
+                            <div class="heart"><i class="fas fa-heart" id="{{ post.id }}" style="color: #ff3838;"></i></div>
+                        {% else %}
+                            <div class="heart"><i class="far fa-heart" id="{{ post.id }}"></i></div>
+                        {% endif %}
+                        <div class="likes">{{ post.likes.count }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="noposts">User has no posts yet...</div>
+        {% endif %}
+    </div>
+{% endblock body %}

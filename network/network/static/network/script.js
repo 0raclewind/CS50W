@@ -1,7 +1,10 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    document.querySelectorAll('.heart i').forEach(heart => {
-        heart.onclick = like;
-    })
+    if (document.querySelector("#auth")) {
+        document.querySelectorAll('.heart i').forEach(heart => {
+            heart.onclick = like;
+        })
+        document.querySelector(".follow").onclick = follow;
+    }
 })
 
 function like() {
@@ -25,5 +28,25 @@ function like() {
     } else {
         this.className = "far fa-heart";
         this.style.color = "#fff";
+    }
+}
+
+function follow() {
+    let followers = document.querySelector(".followers_count");
+
+    fetch(`follow/${this.id}`)
+        .then(response => {
+            return response.json();
+        })
+        .then(json => {
+            followers.innerHTML = json;
+        })
+
+    if (this.classList[1]) {
+        this.classList.remove("unfollow");
+        this.innerHTML = '<i class="fas fa-user-plus"></i>Follow';
+    } else {
+        this.classList.add("unfollow");
+        this.innerHTML = '<i class="fas fa-user-minus"></i>Unfollow';
     }
 }

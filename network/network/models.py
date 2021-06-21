@@ -10,3 +10,8 @@ class Post(models.Model):
     time_created = models.DateTimeField(auto_now=True)
     post_content = models.TextField(max_length=400)
     likes = models.ManyToManyField(User, related_name="likes")
+
+class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    followers = models.ManyToManyField(User, related_name="followers")
+    following = models.ManyToManyField(User, related_name="following")

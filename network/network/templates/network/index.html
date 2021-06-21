@@ -8,12 +8,12 @@
         <input type="submit" value="Post">
     </form>
     {% endif %}
-    <h3>All posts</h3>
     <div class="posts">
+        <h3>All posts</h3>
         {% for post in all_posts %}
             <div class="post">
                 <div class="header">
-                    <div class="user">{{ post.user }}</div>
+                    <div class="user"><a href="{% url 'profile' profile_id=post.user_id %}">{{ post.user }}</a></div>
                     <div class="timestamp">{{ post.time_created }}</div>
                 </div>
                 <div class="content">{{ post.post_content }}</div>

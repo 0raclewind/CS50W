@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-from .models import User, Post
+from .models import User, Post, Profile
 from .forms import PostForm
 
 
@@ -66,6 +66,7 @@ def register(request):
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
+            Profile(user=user).save()
         except IntegrityError:
             return render(request, "network/register.html", {
                 "message": "Username already taken."
@@ -80,11 +81,33 @@ def update_like(request, post_id):
     post = Post.objects.get(pk=post_id)
     
     try:
+        # Check if user likes the post
         post.likes.get(username=request.user)
         post.likes.remove(request.user)
     except:
         post.likes.add(request.user)
 
-    likes_count = post.likes.count()
+    # Return total post likes count
+    return HttpResponse(post.likes.count())
 
-    return HttpResponse(likes_count)
+def profile(request, profile_id):
+    profile = Profile.objects.get(user=profile_id)
+    posts = Post.objects.filter(user_id=profile_id)
+
+    return render(request, "network/profile.html", {
+        "profile": profile,
+        "posts": posts
+    })
+
+@login_required
+def follow(request, profile_id):
+    profile = Profile.objects.get(user=profile_id)
+
+    try:
+        profile.followers.get(username=request.user)
+        profile.followers.remove(request.user)
+    except:
+        profile.followers.add(request.user)
+
+    # Return followers count
+    return HttpResponse(profile.followers.count())
