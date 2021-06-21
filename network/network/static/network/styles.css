@@ -9,6 +9,15 @@ form {
 /* Index page */
 .postArea {
     padding: 5px 10px;
+    border-radius: 10px;
+    border: 1px solid #aaa;
+    resize: none;
+}
+
+.postArea:focus {
+    outline: none;
+    border: 1px solid #58a9ff;
+    box-shadow: 0 0 5px #007bff;
 }
 
 .post_form input {
@@ -33,6 +42,7 @@ form {
 .post .header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 5px 10px;
     background-color: #007bff;
     color: #fff;
@@ -40,7 +50,11 @@ form {
 }
 
 .post .header a {
-    color: #fff;
+    color: #25667a;
+}
+
+.post .header .timestamp {
+    font-size: 12px;
 }
 
 .post .content {
@@ -61,6 +75,13 @@ form {
     position: relative;
     left: 30px;
     padding: 0 10px;
+}
+
+.post .footer .edit {
+    position: relative;
+    margin-left: auto;
+    padding: 0 10px;
+    cursor: pointer;
 }
 
 .noposts {

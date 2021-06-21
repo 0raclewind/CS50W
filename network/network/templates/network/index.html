@@ -8,24 +8,5 @@
         <input type="submit" value="Post">
     </form>
     {% endif %}
-    <div class="posts">
-        <h3>All posts</h3>
-        {% for post in all_posts %}
-            <div class="post">
-                <div class="header">
-                    <div class="user"><a href="{% url 'profile' profile_id=post.user_id %}">{{ post.user }}</a></div>
-                    <div class="timestamp">{{ post.time_created }}</div>
-                </div>
-                <div class="content">{{ post.post_content }}</div>
-                <div class="footer">
-                    {% if request.user in post.likes.all %}
-                        <div class="heart"><i class="fas fa-heart" id="{{ post.id }}" style="color: #ff3838;"></i></div>
-                    {% else %}
-                        <div class="heart"><i class="far fa-heart" id="{{ post.id }}"></i></div>
-                    {% endif %}
-                    <div class="likes">{{ post.likes.count }}</div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
+    {% include 'network/posts.html' with title="All posts" %}
 {% endblock %}

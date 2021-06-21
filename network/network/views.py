@@ -20,7 +20,7 @@ def index(request):
 
     return render(request, "network/index.html", {
         "postForm": PostForm(),
-        "all_posts": Post.objects.all()
+        "posts": Post.objects.all().order_by("-time_created")
     })
 
 
@@ -92,7 +92,7 @@ def update_like(request, post_id):
 
 def profile(request, profile_id):
     profile = Profile.objects.get(user=profile_id)
-    posts = Post.objects.filter(user_id=profile_id)
+    posts = Post.objects.filter(user_id=profile_id).order_by("-time_created")
 
     return render(request, "network/profile.html", {
         "profile": profile,
@@ -111,3 +111,12 @@ def follow(request, profile_id):
 
     # Return followers count
     return HttpResponse(profile.followers.count())
+
+@login_required
+def following_page(request):
+    following = request.user.following.all()
+    print(following)
+    posts = Post.objects.filter(user__profile__in=following).all()
+    return render(request, "network/following.html", {
+        "posts": posts.order_by("-time_created")
+    })
