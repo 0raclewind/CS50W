@@ -115,8 +115,11 @@ def follow(request, profile_id):
 @login_required
 def following_page(request):
     following = request.user.following.all()
-    print(following)
     posts = Post.objects.filter(user__profile__in=following).all()
     return render(request, "network/following.html", {
         "posts": posts.order_by("-time_created")
     })
+
+@login_required
+def edit_post(request, post_id):
+    return HttpResponse(200)

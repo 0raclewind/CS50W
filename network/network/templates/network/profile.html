@@ -1,7 +1,7 @@
 {% extends 'network/layout.html' %}
 
 {% block body %}
-    <div class="profile">
+    <div class="profile" data-profile_id="{{ profile.id }}">
         <div class="username">
             <div class="user_icon"><i class="fas fa-user"></i></div>
             <div class="profile_name">{{ profile.user }}</div>
@@ -12,9 +12,9 @@
             <div class="following"><strong>Following:</strong> {{ profile.user.following.count }}</div>
             {% if profile.user != user and user.is_authenticated %}
                 {% if request.user in profile.followers.all %}
-                    <div class="follow unfollow" id="{{ profile.id }}"><i class="fas fa-user-minus"></i>Unfollow</div>
+                    <div class="follow unfollow"><i class="fas fa-user-minus"></i>Unfollow</div>
                 {% else %}
-                    <div class="follow" id="{{ profile.id }}"><i class="fas fa-user-plus"></i>Follow</div>
+                    <div class="follow"><i class="fas fa-user-plus"></i>Follow</div>
                 {% endif %}
             {% endif %}
         </div>

@@ -2,7 +2,7 @@
     <h4>{{ title }}</h4>
     {% if posts %}
         {% for post in posts %}
-            <div class="post">
+            <div class="post" data-post_id="{{ post.id }}">
                 <div class="header">
                     <div class="user"><a href="{% url 'profile' profile_id=post.user_id %}">{{ post.user }}</a></div>
                     <div class="timestamp">{{ post.time_created|date:'Y m d | H:i' }}</div>
@@ -10,9 +10,9 @@
                 <div class="content">{{ post.post_content }}</div>
                 <div class="footer">
                     {% if request.user in post.likes.all %}
-                        <div class="heart"><i class="fas fa-heart" id="{{ post.id }}" style="color: #ff3838;"></i></div>
+                        <div class="heart"><i class="fas fa-heart"></i></div>
                     {% else %}
-                        <div class="heart"><i class="far fa-heart" id="{{ post.id }}"></i></div>
+                        <div class="heart"><i class="far fa-heart"></i></div>
                     {% endif %}
                     <div class="likes">{{ post.likes.count }}</div>
                     {% if user == post.user %}
@@ -24,4 +24,12 @@
     {% else %}
         <div class="noposts">User has no posts yet...</div>
     {% endif %}
+</div>
+<div class="backdrop"></div>
+<div class="edit_field">
+    <textarea name="content" id="edit_content" cols="40" rows="2"></textarea>
+    <div class="buttons">
+        <div class="cancel-btn">Cancel</div>
+        <div class="save-btn">Save</div>
+    </div>
 </div>
