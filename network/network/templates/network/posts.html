@@ -1,5 +1,28 @@
 <div class="posts">
     <h4>{{ title }}</h4>
+    {% if posts.has_other_pages %}
+        <nav aria-label="..."></nav>
+            <ul class="pagination">
+                {% if posts.has_previous %}
+                    <li class="page-item"><a href="?page={{ posts.previous_page_number }}" class="page-link">&laquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                {% endif %}
+                {% for i in posts.paginator.page_range %}
+                    {% if posts.number == i %}
+                        <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                        <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if posts.has_next %}
+                    <li><a href="?page={{ posts.next_page_number }}" class="page-link">&raquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span class="page-link">&raquo;</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
     {% if posts %}
         {% for post in posts %}
             <div class="post" data-post_id="{{ post.id }}">
@@ -16,7 +39,11 @@
                     {% endif %}
                     <div class="likes">{{ post.likes.count }}</div>
                     {% if user == post.user %}
-                        <div class="edit"><i class="fas fa-edit"></i></div>
+                        <div class="buttons">
+                            <div class="edit"><i class="fas fa-edit"></i> Edit</div>
+                            <div class="cancel-btn">Cancel</div>
+                            <div class="save-btn">Save</div>
+                        </div>
                     {% endif %}
                 </div>
             </div>
@@ -24,12 +51,4 @@
     {% else %}
         <div class="noposts">User has no posts yet...</div>
     {% endif %}
-</div>
-<div class="backdrop"></div>
-<div class="edit_field">
-    <textarea name="content" id="edit_content" cols="40" rows="2"></textarea>
-    <div class="buttons">
-        <div class="cancel-btn">Cancel</div>
-        <div class="save-btn">Save</div>
-    </div>
 </div>

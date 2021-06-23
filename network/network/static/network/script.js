@@ -19,7 +19,7 @@ function like() {
     let likes = this.parentElement.parentElement.querySelector(".likes");
     let post_id = this.parentElement.parentElement.parentElement.dataset.post_id;
 
-    fetch(`${post_id}/like`)
+    fetch(`/${post_id}/like`)
         .then(response => {
             return response.json();
         })
@@ -62,32 +62,66 @@ function follow() {
 }
 
 function edit() {
-    const post = this.parentElement.parentElement;
+    const post = this.parentElement.parentElement.parentElement;
     const post_id = post.dataset.post_id;
     let content = post.querySelector(".content");
+    const content_value = content.innerHTML;
+    const cancel_btn = post.querySelector(".cancel-btn");
+    const save_btn = post.querySelector(".save-btn");
+    const edit_btn = post.querySelector(".edit");
 
-    document.querySelector(".edit_field textarea").value = content.innerHTML;
+    cancel_btn.style.display = 'block';
+    save_btn.style.display = 'block';
+    edit_btn.style.display = 'none';
 
-    toggle_edit("show");
+    content.innerHTML = "<textarea cols=38 rows=1>";
+    content.querySelector("textarea").value = content_value;
 
-    document.querySelectorAll(".edit_field .cancel-btn, .backdrop").forEach(e => {
-        e.addEventListener("click", () => {
-            toggle_edit("hide");
-        });
+
+    post.querySelector(".save-btn").addEventListener("click", () => {
+        let new_content = content.querySelector("textarea").value;
+        if (content_value != new_content) {
+            fetch("edit", {
+                method: "PUT",
+                headers: {
+                    'X-CSRFToken': getCookie("csrftoken")
+                },
+                body: body = JSON.stringify({
+                    "post_id": post_id,
+                    "content": new_content
+                })
+            });
+            exit_edit(post, new_content);
+        } else {
+            exit_edit(post, content_value);
+        }
     });
 
-    document.querySelector(".save-btn").addEventListener("click", () => {
-        toggle_edit("hide");
-        content.innerHTML = document.querySelector(".edit_field textarea").value;
+    document.querySelector(".cancel-btn").addEventListener("click", () => {
+        exit_edit(post, content_value);
     });
 }
 
-function toggle_edit(command) {
-    if (command === "show") {
-        document.querySelector(".backdrop").style.display = "block";
-        document.querySelector(".edit_field").style.display = "block";
-    } else {
-        document.querySelector(".backdrop").style.display = "none";
-        document.querySelector(".edit_field").style.display = "none";
+function exit_edit(post, content) {
+    post.querySelector(".content").innerHTML = content;
+
+    post.querySelector(".save-btn").style.display = "none";
+    post.querySelector(".cancel-btn").style.display = "none";
+    post.querySelector(".edit").style.display = "flex";
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
     }
+    return cookieValue;
 }

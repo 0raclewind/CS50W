@@ -7,14 +7,14 @@ form {
 }
 
 /* Index page */
-.postArea, .edit_field textarea {
+textarea {
     padding: 5px 10px;
     border-radius: 10px;
     border: 1px solid #aaa;
     resize: none;
 }
 
-.postArea:focus, .edit_field textarea:focus {
+ textarea:focus {
     outline: none;
     border: 1px solid #58a9ff;
     box-shadow: 0 0 5px #007bff;
@@ -78,11 +78,44 @@ form {
     padding: 0 10px;
 }
 
-.post .footer .edit {
+.post .footer .buttons {
+    display: flex;
     position: relative;
     margin-left: auto;
-    padding: 0 10px;
+    padding: 0 5px;
     cursor: pointer;
+    font-weight: 600;
+    font-size: 12px;
+    border-radius: 5px;
+}
+
+.post .footer .buttons * {
+    color: #007bff;
+    background: #fff;
+    margin-right: 5px;
+    width: 50px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.post .footer .buttons .edit {
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+}
+
+.cancel-btn, .save-btn {
+    display: none;
+}
+
+.cancel-btn {
+    background: #ff3838 !important;
+    color: #fff !important;
+}
+
+.save-btn {
+    background: #509e50 !important;
+    color: #fff !important;
 }
 
 .noposts {
@@ -134,51 +167,6 @@ form {
     color: #ff3838;
 }
 
-.edit_field {
-    position: absolute;
-    display: none;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) ;
-    background: #fff;
-    border: 1px solid #aaa;
-    border-radius: 10px;
-    padding: 5px 10px;
-}
-
-.backdrop {
-    display: none;
-    position: absolute;
-    background-color: rgba(255, 255, 255, 0.5);
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-}
-
-.edit_field .buttons {
-    display: flex;
-    justify-content: space-around;
-    color: #fff;
-}
-
-.edit_field .buttons * {
-    width: 150px;
-    padding: 5px;
-    font-weight: 600;
-    text-align: center;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.edit_field .cancel-btn {
-    background-color: #ef1414;
-}
-
-.edit_field .save-btn {
-    background-color: #007bff;
-}
-
 /* Profile */
 
 .profile {
@@ -222,4 +210,8 @@ form {
 
 .profile .unfollow {
     background: #ef1414;
+}
+
+.pagination {
+    justify-content: center;
 }

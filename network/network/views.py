@@ -4,9 +4,12 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import User, Post, Profile
 from .forms import PostForm
+
+import json
 
 
 def index(request):
@@ -18,9 +21,10 @@ def index(request):
             newForm.save()
             return HttpResponseRedirect(reverse('index'))
 
+    posts = Post.objects.all().order_by("-time_created")
     return render(request, "network/index.html", {
         "postForm": PostForm(),
-        "posts": Post.objects.all().order_by("-time_created")
+        "posts": paginator(request, posts)
     })
 
 
@@ -96,7 +100,7 @@ def profile(request, profile_id):
 
     return render(request, "network/profile.html", {
         "profile": profile,
-        "posts": posts
+        "posts": paginator(request, posts)
     })
 
 @login_required
@@ -115,11 +119,30 @@ def follow(request, profile_id):
 @login_required
 def following_page(request):
     following = request.user.following.all()
-    posts = Post.objects.filter(user__profile__in=following).all()
+    posts = Post.objects.filter(user__profile__in=following).all().order_by("-time_created")
     return render(request, "network/following.html", {
-        "posts": posts.order_by("-time_created")
+        "posts": paginator(request, posts)
     })
 
 @login_required
-def edit_post(request, post_id):
+def edit_post(request):
+    data = json.loads(request.body)
+    post = Post.objects.get(pk=data["post_id"])
+    if post.user != request.user:
+        return HttpResponse(status=401)
+    post.post_content = data["content"]
+    post.save()
     return HttpResponse(200)
+
+def paginator(request, posts):
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(posts, 10)
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+    return posts
