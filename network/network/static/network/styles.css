@@ -11,6 +11,14 @@ form, .posts, .profile {
     margin-right: auto;
 }
 
+h2 {
+    text-align: center;
+}
+
+.text {
+    text-align: center;
+}
+
 /* Index page */
 textarea {
     padding: 5px 10px;
